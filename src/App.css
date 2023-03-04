@@ -1,0 +1,38 @@
+.container{
+    margin: auto;
+    width: 1000px;
+}
+
+.app {
+    margin: 1rem 0;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.card-section {
+    width: 14rem;
+    
+}
+
+.card-section:hover .show-image{
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.card-image{
+    height: 200px;
+    overflow: hidden;
+}
+.show-image{
+    width: 100%;
+    transition: all 500ms ease-in-out;
+    height: 100%;
+}
+
+.form-container{
+    margin: 1rem 0;
+    display: grid;
+    place-items: center;
+}
