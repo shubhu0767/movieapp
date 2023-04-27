@@ -1,0 +1,8 @@
+.banner{
+    max-height: 400px;
+    object-fit: contain;
+}
+
+@media screen and (max-width: 850px) {
+    
+}

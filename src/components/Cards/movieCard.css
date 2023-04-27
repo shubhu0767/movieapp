@@ -1,0 +1,43 @@
+.movieCard:first-child {
+    margin-left: 1.5rem;
+}
+
+.movieImage:hover .movieText{
+    display: block;
+    font-weight: bolder;
+    width: 12rem;
+    height: 400px;
+    padding-top: 300px;
+}
+
+.movieImage:hover .movieTitle{
+    line-height: 1rem;
+}
+
+.movieImage:hover .movieOverview {
+    line-height: 5px;
+    padding-left: .5rem;   
+    padding-right: .5rem;
+    /* margin-top: .7rem; */
+    font-weight: 500;
+}
+
+.movieImage:hover .text-xs{
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.movieTitle {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+@media screen and (max-width: 550px) {
+    .movieCard{
+        justify-content: center;
+    }
+}

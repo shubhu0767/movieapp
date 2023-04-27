@@ -1,0 +1,52 @@
+31/04/2023
+what i can did today
+1) making Responsive Navbar
+
+Login and sign up reference
+---> https://medium.com/how-to-react/create-a-login-form-using-formik-in-react-js-240428a2f480
+
+
+
+
+      {/* <div className="button  flex gap-x-2">
+        <div className="languageButton">
+          <Dropdown label="Language" dismissOnClick={false}>
+            <Dropdown.Item>All</Dropdown.Item>
+            <div className="divider my-0"></div>
+            <Dropdown.Item>Hindi</Dropdown.Item>
+            <div className="divider my-0"></div>
+            <Dropdown.Item>Marathi</Dropdown.Item>
+            <div className="divider my-0"></div>
+            <Dropdown.Item>English</Dropdown.Item>
+            <div className="divider my-0"></div>
+            <Dropdown.Item>Tamil</Dropdown.Item>
+            <div className="divider my-0"></div>
+            <Dropdown.Item>Telgu</Dropdown.Item>
+          </Dropdown>
+        </div>
+        <div className="languageButton">
+          <Dropdown label="Genres" dismissOnClick={false}>
+            <Dropdown.Item>Dashboard</Dropdown.Item>
+            <div className="divider my-0"></div>
+            <Dropdown.Item>Settings</Dropdown.Item>
+            <div className="divider my-0"></div>
+            <Dropdown.Item>Earnings</Dropdown.Item>
+            <div className="divider my-0"></div>
+            <Dropdown.Item>Sign out</Dropdown.Item>
+          </Dropdown>
+        </div>
+        <div className="languageButton">
+          <Dropdown label="Content Type" dismissOnClick={false}>
+            <Dropdown.Item>Dashboard</Dropdown.Item>
+            <div className="divider my-0"></div>
+            <Dropdown.Item>Settings</Dropdown.Item>
+            <div className="divider my-0"></div>
+            <Dropdown.Item>Earnings</Dropdown.Item>
+            <div className="divider my-0"></div>
+            <Dropdown.Item>Sign out</Dropdown.Item>
+          </Dropdown>
+        </div>
+        <div>
+          <Button>Apply</Button>
+        </div> */}
+      {/* </div> */}

@@ -1,38 +1,117 @@
 .container{
-    margin: auto;
-    width: 1000px;
+  max-width: 50%;
+  margin: auto;
 }
 
-.app {
-    margin: 1rem 0;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 1rem;
+.menu {
+  display: flex;
+  column-gap: 1rem;
+  list-style-type: none;
+}
+.container nav{
+  margin: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  
 }
 
-.card-section {
-    width: 14rem;
-    
+.container nav .nav-btn button{
+  margin-left: 1rem;
 }
 
-.card-section:hover .show-image{
-    transform: scale(1.2);
-    cursor: pointer;
+.menu li a{
+  color: rgb(131, 130, 130);
+  text-decoration: none;
 }
 
-.card-image{
-    height: 200px;
-    overflow: hidden;
-}
-.show-image{
-    width: 100%;
-    transition: all 500ms ease-in-out;
-    height: 100%;
+
+/* CSS */
+.button-24 {
+  background: #E6B31E;
+  border: 1px solid #E6B31E;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer !important;
+  display: inline-block;
+  font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 16px;
+  min-height: 20px;
+  outline: 0;
+  padding: .3rem 1rem;
+  text-align: center;
+  text-rendering: geometricprecision;
+  text-transform: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
 }
 
-.form-container{
-    margin: 1rem 0;
-    display: grid;
-    place-items: center;
+.button-24:hover,
+.button-24:active {
+  background-color: initial;
+  background-position: 0 0;
+  color: #FF4742;
+  
+}
+
+.button-24:active {
+  opacity: .5;
+}
+
+.page-container{
+  max-width: 80%;
+  margin: auto;
+  overflow: hidden;
+}
+
+.moreText{
+  margin-right: 13rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.headingText{
+  font-size: 2.25rem;
+}
+
+.image-gallery-wrapper {
+  margin-top: 5rem;
+  /* min-width: 800px; */
+  /* height: 80vh; */
+  margin: 0 auto;
+  border: 1px solid rgb(146, 129, 242);
+  box-shadow: #2b15453d 1px 10px 10px 5px;
+}
+
+SwiperSlide{
+  max-height: 80vh;
+}
+
+.sliderImg{
+  max-height: 60vh;
+  width: 100%;
+}
+
+@media screen and (max-width: 750px) {
+  .moreText{
+    margin-right: 4rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .moreText{
+    margin-right: 4rem;
+    font-size: 1rem;
+  }
+  .headingText{
+    font-size: 1.25rem;
+  }
+  /* .sliderImg{
+    max-height: 0vh;
+  } */
 }
