@@ -115,3 +115,12 @@ SwiperSlide{
     max-height: 0vh;
   } */
 }
+
+
+@media screen and (max-width: 450px) {
+  .page-container{
+    /* max-width: 80%; */
+    margin: auto;
+    overflow: hidden;
+  }
+}

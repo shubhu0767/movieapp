@@ -28,7 +28,7 @@ export const getMovieDetailsData = async (setState, endpoint) => {
     // console.log("Link--->", data.results);
     setState([...data.results]);
   }else{
-    console.log(data);
+    // console.log(data);
     setState(data);
   }
 };

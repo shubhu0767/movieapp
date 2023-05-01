@@ -66,12 +66,10 @@ const MovieDetails = () => {
     return `${hours}h${minutes > 0 ? ` ${minutes}m` : ""}`;
   };
 
-  console.log("Details", movieDetails);
-  // console.log("Details2", movieDetails?.spoken_languages && movieDetails?.spoken_languages[0]);
+  // console.log("Details", movieDetails);
 
   return (
     <>
-      <div className="page-container">
         <div className="movieDetails flex justify-between ">
           {movieDetails && <div className="youtubeVideo">
             <iframe
@@ -102,7 +100,7 @@ const MovieDetails = () => {
               <span>{rating}</span>
               <span>{ movieDetails.id && movieDetails?.spoken_languages[0]?.english_name}</span>
             </div>
-            <div className="mt-1"> {/* genres */}
+            <div className="mt-3"> {/* genres */}
             <span className="text-xl">Genres: </span>
               <span className="font-semibold">
                 {genres &&
@@ -116,8 +114,13 @@ const MovieDetails = () => {
                   })}
               </span>
             </div>
+            <div className="mt-4">
+              <button className="btn mr-4" >Add To Wishlist</button>
+              <button className="btn">Share</button>
+            </div>
           </div>
         </div>
+      <div className="page-container">
 
         <div className="my-8">
           <span className="text-white my-4 text-3xl font-bold">

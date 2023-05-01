@@ -1,29 +1,45 @@
 import React, { useState, useEffect } from "react";
-import { getMovieDetailsData } from "../../api/IMDB";
 import { CiCircleRemove } from "react-icons/ci";
+import {useNavigate} from 'react-router-dom'
+
+import { getMovieDetailsData } from "../../api/IMDB";
+import dummyImage from "../../assets/dummy-image-square.jpg";
 
 const Card = ({ id, type, handleRemoveBtn }) => {
   const [movie, setDetails] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     getMovieDetailsData(setDetails, `${type}/${id}`);
   }, []);
   
   
-  console.log(movie);
+  // console.log(movie);
+  const handleNavgiation = (movieId, dataType) => {
+    navigate(`/${dataType}/${dataType}_details/${movieId}`);
+  };
   return (
       <>
       {movie.id && (
         <div className="flex items-center h-96 cursor-pointer ">
           <div className="movieImage w-48 h-72 hover:scale-125 transition delay-150 ease-in-out">
-            <img
-              className="rounded-lg z-10"
-              style={{ width: "100%", height: "100%" }}
-              src={`https://image.tmdb.org/t/p/original/${movie?.poster_path}`}
-              alt={movie?.title}
-            />
+            {movie?.poster_path ? (
+              <img
+                className="rounded-lg z-10"
+                style={{ width: "100%", height: "100%" }}
+                src={`https://image.tmdb.org/t/p/original/${movie?.poster_path}`}
+                alt={movie?.title}
+              />
+              ) : (
+              <img
+                className="rounded-lg z-10"
+                style={{ width: "100%", height: "100%" }}
+                src={dummyImage}
+                alt={movie?.title}
+              />
+            )}
             <div
-              //onClick={() => handleNavgiation(movie?.id, dataType)}
+              onClick={() => handleNavgiation(movie?.id, type)}
               className="movieText rounded-lg hidden w-full h-20 bg-gradient-to-b from-transparent to-neutral-800 absolute bottom-0 left-0 text-white"
             >
               <h5 className="movieTitle pl-3 left-1">

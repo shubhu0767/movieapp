@@ -23,14 +23,11 @@ const schema = Yup.object().shape({
 
 function Login() {
   const [user, loading, error] = useAuthState(auth);
-  // console.log(user);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (loading) return;
-
     if (user) {
-      console.log("Login file", user);
       navigate("/");
     }
   }, [user, loading]);
@@ -43,7 +40,6 @@ function Login() {
         initialValues={{ email: "", password: "" }}
         onSubmit={(values) => {
           // Alert the input values of the form that we filled
-          // console.log(values);
           logInWithEmailAndPassword(values.email, values.password);
         }}
       >

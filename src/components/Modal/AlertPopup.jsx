@@ -6,7 +6,7 @@ const AlertPopup = ({closeAlert, text}) => {
     <Alert
       color="success"
       onDismiss={closeAlert}
-      className="max-w-sm absolute sticky top-10 left-3 z-20"
+      className="max-w-sm sticky top-10 left-3 z-20"
     >
       <span>
         <span className="font-medium">Info alert!</span> {text}

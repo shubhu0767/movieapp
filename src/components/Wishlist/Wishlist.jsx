@@ -1,26 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  collection,
-  doc,
-  setDoc,
-  arrayRemove,
-  getDoc,
-  updateDoc,
-} from "firebase/firestore";
+import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-import MovieCard from "../Cards/MovieCard";
 import { auth, db } from "../../../firebase";
-import Card from './Card'
+import Card from "./Card";
 import { Context } from "../../context/Context";
-
 
 const Wishlist = () => {
   const [user, loading, error] = useAuthState(auth);
   const [data, setData] = useState({});
   const { movieId, tvId } = data;
   const { showAlert } = useContext(Context);
-  const [list, setlist] = useState([]);
 
   const getData = async () => {
     if (user) {
@@ -34,40 +24,58 @@ const Wishlist = () => {
 
   useEffect(() => {
     getData();
-  }, [user, list]);
+  }, [user]);
 
   const handleRemoveBtn = async (e, id, type) => {
-
-    const updatedList = movieId.filter((val) => val !== id);
-    setlist(updatedList);
+    e.stopPropagation();
     if (user) {
-        const docRef = await doc(collection(db, "users"), user.uid);
-        if (type === "movie") {
-            await updateDoc(docRef,{
-                wishlistData: {
-                    movieId: list
-                }
-            })
-            showAlert("Item Removed successfully");
-          } else {
-            await updateDoc(docRef,{
-              wishlistData: {
-                tvId: list
-              }
-            })
-            showAlert("Item Removed successfully");
-        }
+      const docRef = await doc(collection(db, "users"), user.uid);
+      if (type === "movie") {
+        const updatedMovieList = movieId.filter((val) => val !== id);
+        await updateDoc(docRef, {
+          wishlistData: {
+            movieId: updatedMovieList,
+            tvId: tvId,
+          },
+        });
+      } else {
+        const updatedTVList = tvId.filter((val) => val !== id);
+        await updateDoc(docRef, {
+          wishlistData: {
+            movieId: movieId,
+            tvId: updatedTVList,
+          },
+        });
+      }
+      showAlert("Item Removed successfully");
+      getData();
     }
-  }
+  };
 
 
-  console.log(movieId);
   return (
-    <div className=" page-container flex gap-x-3 flex-wrap">
-      {movieId &&
-        movieId.map((item) => <Card key={item} type="movie" id={item} handleRemoveBtn={handleRemoveBtn} />)}
-      {tvId &&
-        tvId.map((item) => <Card key={item} type="tv" id={item} handleRemoveBtn={handleRemoveBtn} />)}
+    <div className=" page-container">
+      <h1 className="text-3xl">Wishlist</h1>
+      <div className="flex gap-x-3 flex-wrap">
+        {movieId &&
+          movieId.map((item) => (
+            <Card
+              key={item}
+              type="movie"
+              id={item}
+              handleRemoveBtn={handleRemoveBtn}
+            />
+          ))}
+        {tvId &&
+          tvId.map((item) => (
+            <Card
+              key={item}
+              type="tv"
+              id={item}
+              handleRemoveBtn={handleRemoveBtn}
+            />
+          ))}
+      </div>
     </div>
   );
 };

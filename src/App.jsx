@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Alert } from "flowbite-react";
 
 import "./App.css";
 
@@ -21,14 +20,12 @@ import RequireModal from "./components/Modal/RequireModal";
 import AlertPopup from "./components/Modal/AlertPopup";
 import Wishlist from "./components/Wishlist/Wishlist";
 
-// API Key = 333860e1
-//
-
-function App(props) {
+function App() {
   const [wishlistData, setWishlistData] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [showAlertPopup, setShowAlertPopup] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
+  const [isRemoved, setIsRemoved] = useState(false);
 
   useEffect(() => {
     const hasVisitedBefore = localStorage.getItem("hasVisitedBefore");
@@ -41,15 +38,16 @@ function App(props) {
 
   useEffect(() => {
     let timer;
-    if (showAlertPopup || isAdded) {
+    if (showAlertPopup || isAdded || isRemoved) {
       timer = setTimeout(() => {
         setShowAlertPopup(false);
         setIsAdded(false);
+        setIsRemoved(false);
       }, 3000);
     }
 
     return () => clearTimeout(timer);
-  }, [showAlertPopup, isAdded]);
+  }, [showAlertPopup, isAdded, isRemoved]);
 
   const handlePopupClose = () => {
     setShowPopup(false);
@@ -57,8 +55,10 @@ function App(props) {
   };
 
   const showAlert = (addToWishlist) => {
-    if (addToWishlist == "Add to Watchlist") {
+    if (addToWishlist === "Add to Watchlist") {
       setIsAdded(true);
+    } else if (addToWishlist === "Item Removed successfully") {
+      setIsRemoved(true);
     } else {
       setShowAlertPopup(true);
     }
@@ -66,30 +66,35 @@ function App(props) {
 
   return (
     <>
-      {showPopup && (
-        <WelcomePopupModal
-          onClose={handlePopupClose}
-          showAlertFuc={showAlert}
-        />
-      )}
-      {showAlertPopup && (
-        <AlertPopup
-          text="Thank You for Susbcribing"
-          showAlert={setShowAlertPopup}
-        />
-      )}
-      {isAdded && (
-        <AlertPopup
-          text="Item Added Successfully"
-          closeAlert={handlePopupClose}
-        />
-      )}
-
       <div className="overflow-hidden">
         <Context.Provider value={{ wishlistData, setWishlistData, showAlert }}>
           <div className="h-16">
             <Header />
           </div>
+          {showPopup && (
+            <WelcomePopupModal
+              onClose={handlePopupClose}
+              showAlertFuc={showAlert}
+            />
+          )}
+          {showAlertPopup && (
+            <AlertPopup
+              text="Thank You for Susbcribing"
+              showAlert={setShowAlertPopup}
+            />
+          )}
+          {isAdded && (
+            <AlertPopup
+              text="Item Added Successfully"
+              closeAlert={handlePopupClose}
+            />
+          )}
+          {isRemoved && (
+            <AlertPopup
+              text="Item Removed successfully"
+              closeAlert={handlePopupClose}
+            />
+          )}
           {wishlistData && <RequireModal />}
           <Routes>
             <Route path="/" element={<Home />} />

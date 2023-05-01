@@ -17,30 +17,29 @@ import { menuItems } from "./MenuItems";
 import { getSearchMoviesData } from "../../api/IMDB";
 import { auth, logout } from "../../../firebase";
 import profilePic from "../../assets/profilePic.png";
+import movieLogo from "../../assets/movie-logo.png";
 
 import "./style.scss";
 
 const Header = () => {
   const [apiData, setApiData] = useState([]);
-  const [searchItem, setSearchItem] = useState("");
-  const [user, loading, error] = useAuthState(auth);
-
   const [show, setShow] = useState("top");
   const [lastScrollY, setLastScrollY] = useState(0);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [signOutModal, setSignOutModal] = useState(false);
   const [query, setQuery] = useState("");
   const [showSearch, setShowSearch] = useState("");
+  const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setMobileMenu(false);
   }, [location]);
 
   useEffect(() => {
-    getSearchMoviesData(setApiData, "search/movie", 1, query);
-    // console.log("search",searchItem);
+    getSearchMoviesData(setApiData, "search/multi", 1, query);
   }, [query]);
 
   const changeColor = ({ isActive }) => {
@@ -97,10 +96,10 @@ const Header = () => {
 
   return (
     <header className={`header ${mobileMenu ? "mobileView" : ""} ${show}`}>
-      {/* <div className="logo" onClick={() => navigate("/")}>
-        <img src={logo} alt="" />
-      </div> */}
       <div className="contentWrapper">
+        <div className="logo" onClick={() => navigate("/")}>
+          <img src={movieLogo} alt="" />
+        </div>
         <ul className="menuItems">
           {menuItems.map((item) => (
             <li key={item.id} className="menuItem">
@@ -109,6 +108,18 @@ const Header = () => {
               </NavLink>
             </li>
           ))}
+          <div className="md:hidden flex flex-col content-start gap-y-2">
+            <Link to="/login">
+              <Button outline={true} gradientDuoTone="purpleToBlue">
+                Log In
+              </Button>
+            </Link>
+            <Link to="/signup">
+              <Button outline={true} gradientDuoTone="purpleToBlue">
+                Sign Up
+              </Button>
+            </Link>
+          </div>
           <li className="menuItem">
             <HiOutlineSearch
               className="text-white"
@@ -117,8 +128,8 @@ const Header = () => {
           </li>
         </ul>
 
-        {user ? ( //
-          <>
+        {user ? (
+          <div className="hidden sm:block">
             <Dropdown
               label={
                 <Avatar
@@ -127,23 +138,23 @@ const Header = () => {
                   rounded={true}
                 />
               }
-              arrowIcon={false}
+              arrowIcon={true}
               inline={true}
+              outline={true}
             >
-              {/* <img src={user.photoURL} alt="" /> */}
               <Dropdown.Header>
                 <span className="block text-sm">{user.displayName}</span>
                 <span className="block truncate text-sm font-medium">
                   {user.email}
                 </span>
               </Dropdown.Header>
-              <Dropdown.Item icon={CgProfile}>Profile</Dropdown.Item>
+              {/* <Dropdown.Item icon={CgProfile}>Profile</Dropdown.Item> */}
               <Link to="/wishlist">
                 <Dropdown.Item icon={MdOutlinePlaylistAddCheck}>
                   Wishlist
                 </Dropdown.Item>
               </Link>
-              <Dropdown.Item icon={HiCog}>Settings</Dropdown.Item>
+              {/* <Dropdown.Item icon={HiCog}>Settings</Dropdown.Item> */}
               <Dropdown.Divider />
               <Dropdown.Item
                 icon={HiLogout}
@@ -172,6 +183,7 @@ const Header = () => {
                       onClick={() => {
                         logout();
                         setSignOutModal(!signOutModal);
+                        window.location.reload();
                       }}
                     >
                       Yes, I'm sure
@@ -186,15 +198,14 @@ const Header = () => {
                 </div>
               </Modal.Body>
             </Modal>
-          </>
+          </div>
         ) : (
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="hidden sm:flex flex-wrap items-center gap-2">
             <Link to="/login">
               <Button outline={true} gradientDuoTone="purpleToBlue">
                 Log In
               </Button>
             </Link>
-
             <Link to="/signup">
               <Button outline={true} gradientDuoTone="purpleToBlue">
                 Sign Up
@@ -234,13 +245,14 @@ const Header = () => {
           >
             <ul className="z-20 ">
               {apiData.map((item) => (
-                // console.log(item)
-                <li
-                  key={item.id}
-                  className="py-1 bg-slate-700 hover:bg-slate-900 text-white pl-8"
-                >
-                  <NavLink>{item.title}</NavLink>
-                </li>
+                <NavLink>
+                  <li
+                    key={item.id}
+                    className="py-1 bg-slate-700 hover:bg-slate-900 text-white pl-8"
+                  >
+                    {item.title}
+                  </li>
+                </NavLink>
               ))}
             </ul>
           </div>

@@ -26,16 +26,10 @@ const schema = Yup.object().shape({
 
 function Signup() {
   const [user, loading, error] = useAuthState(auth);
-  // console.log(data);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (loading) {
-      console.log("loading");
-    }
-
     if (user) {
-      // console.log(user);
       navigate("/");
     }
   }, [user, loading]);
@@ -65,13 +59,12 @@ function Signup() {
           handleBlur,
           handleSubmit,
         }) => (
-          // console.log(touched)
           <div className="login">
             <div className="form">
               {/* Passing handleSubmit parameter tohtml form onSubmit property */}
               <form noValidate onSubmit={handleSubmit}>
                 <span>Register</span>
-                <div className="">
+                <div>
                   {/* Our input html with passing formik parameters like handleChange, values, handleBlur to input properties */}
                   <input
                     type="text"
@@ -88,7 +81,7 @@ function Signup() {
                     {errors.fullName && touched.fullName && errors.fullName}
                   </p>
                 </div>
-                <div className="">
+                <div>
                   {/* Our input html with passing formik parameters like handleChange, values, handleBlur to input properties */}
                   <input
                     type="email"
@@ -106,7 +99,7 @@ function Signup() {
                   </p>
                 </div>
 
-                <div className="">
+                <div>
                   {/* Our input html with passing formik parameters like handleChange, values, handleBlur to input properties */}
                   <input
                     type="password"
@@ -138,8 +131,8 @@ function Signup() {
                     signInWithGoogle();
                   }}
                 >
-                  <FcGoogle className="mr-5 text-3xl" />
-                  <label className="cursor-pointer text-black font-extrabold">Register with Google</label>
+                  <FcGoogle className=" mr-1 text-base  sm:mr-5  sm:text-3xl" />
+                  <label className="cursor-pointer text-xs w-fit sm:text-base text-black font-extrabold">Register with Google</label>
                 </button>
               </div>
               <div className="mt-3">

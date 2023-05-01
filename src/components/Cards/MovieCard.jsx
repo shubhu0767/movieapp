@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
+import React, {useContext } from "react";
 import { Pagination, Navigation } from "swiper";
-import { AiOutlinePlusCircle } from "react-icons/ai";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { collection, doc, setDoc, arrayUnion } from "firebase/firestore";
 
 import generBGIMG from "../../assets/generBGIMG.png";
+import profilePic from "../../assets/profilePic.png";
 import { Context } from "../../context/Context";
 import { auth, db } from "../../../firebase";
 
 import "./movieCard.css";
-
+import ContentCard from "./ContentCard";
 
 const MovieCard = ({ dataType, movieData, isHome }) => {
   const { setWishlistData, showAlert } = useContext(Context);
@@ -92,31 +92,38 @@ const MovieCard = ({ dataType, movieData, isHome }) => {
 
   // console.log("Context", setWishlistData);
 
-  const handleAddBtn = async (e,id) => {
+  const handleAddBtn = async (e, id) => {
     e.stopPropagation();
     if (user) {
       const docRef = await doc(collection(db, "users"), user.uid);
       if (dataType === "movie") {
-        await setDoc(docRef, {
-          wishlistData: {
-            movieId: arrayUnion(id)
+        await setDoc(
+          docRef,
+          {
+            wishlistData: {
+              movieId: arrayUnion(id),
+            },
           },
-        }, { merge: true })
-      }else {
-        await setDoc(docRef, {
-          wishlistData: {
-            tvId: arrayUnion(id)
+          { merge: true }
+        );
+      } else {
+        await setDoc(
+          docRef,
+          {
+            wishlistData: {
+              tvId: arrayUnion(id),
+            },
           },
-        }, { merge: true })
+          { merge: true }
+        );
       }
       showAlert(e.target.innerHTML);
-    }else {
-      // alert("Please Login/Signup for used Features of this APP");
+    } else {
       setWishlistData(true);
     }
   };
 
-  console.log("data", movieData);
+  // console.log("data", movieData);
   return (
     <div className="page-container">
       {isHomeData === "cast" ? (
@@ -126,11 +133,22 @@ const MovieCard = ({ dataType, movieData, isHome }) => {
               return (
                 <SwiperSlide key={item.id}>
                   <div className="flex justify-center">
-                    <img
-                      className="h-40 w-40 rounded-full"
-                      src={`https://image.tmdb.org/t/p/original/${item?.profile_path}`}
-                      alt=""
-                    />
+                    {item?.profile_path ? (
+                      <img
+                        className="h-40 w-40 rounded-full"
+                        src={
+                          `https://image.tmdb.org/t/p/original/${item?.profile_path}` ||
+                          `${profilePic}`
+                        }
+                        alt=""
+                      />
+                    ) : (
+                      <img
+                        className="h-40 w-40 rounded-full"
+                        src={profilePic}
+                        alt=""
+                      />
+                    )}
                   </div>
                   <h2 className="text-lg">Orignal Name: {item.name}</h2>
                   <h2>Character Name: {item.character}</h2>
@@ -186,71 +204,24 @@ const MovieCard = ({ dataType, movieData, isHome }) => {
           {movieData.map((movie) => (
             // console.log(movie)
             <SwiperSlide key={movie.id}>
-              <div className="movieCard flex items-center h-96 cursor-pointer ">
-                <div className="movieImage w-48 h-72 hover:scale-125 transition delay-150 ease-in-out">
-                  <img
-                    className="rounded-lg z-10"
-                    style={{ width: "100%", height: "100%" }}
-                    src={`https://image.tmdb.org/t/p/original/${movie?.poster_path}`}
-                    alt={movie?.title}
-                  />
-                  <div
-                    onClick={() => handleNavgiation(movie?.id, dataType)}
-                    className="movieText rounded-lg hidden w-full h-20 bg-gradient-to-b from-transparent to-neutral-800 absolute bottom-0 left-0 text-white"
-                  >
-                    <h5 className="movieTitle pl-3 left-1">
-                      {movie.title || movie.name}
-                    </h5>
-                    <ul style={{ fontSize: "8px" }} className="list-disc flex">
-                      <li className="text-xs my-1 pl-1 left-1">
-                        ◑ {movie?.release_date || movie?.first_air_date}
-                      </li>
-                      <li className="text-xs my-1 pl-1 left-1">
-                        ◐ {movie?.vote_average}
-                      </li>
-                      <li className="text-xs my-1 pl-1 left-1">
-                        ◐ {movie?.original_language}
-                      </li>
-                    </ul>
-                    <label className=" "></label>
-                    <div className="movieOverview">
-                      <span className="text-xs">{movie?.overview}</span>
-                    </div>
-                    <div className="justify-center flex items-center mt-1">
-                      <AiOutlinePlusCircle />
-
-                      <button
-                        style={{ fontSize: "12px" }}
-                        className="ml-2"
-                        onClick={(e) => handleAddBtn(e, movie?.id)}
-                      >
-                        Add to Watchlist
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <ContentCard
+                movie={movie}
+                dataType={dataType}
+                handleAddBtn={handleAddBtn}
+                handleNavgiation={handleNavgiation}
+              />
             </SwiperSlide>
           ))}
         </Swiper>
       ) : (
         <div className="flex flex-wrap justify-evenly gap-1 ">
           {movieData.map((movie, i) => (
-            // console.log("trending", i)
-            <div className="w-60 " key={i}>
-              <div className="w-60">
-                <img
-                  style={{ width: "100%" }}
-                  src={`https://image.tmdb.org/t/p/original${movie?.poster_path}`}
-                  alt=""
-                />
-              </div>
-              <div>
-                <h5 className="text-center text-white">
-                  {movie?.title || movie?.name}
-                </h5>
-              </div>
-            </div>
+            <ContentCard
+              movie={movie}
+              dataType={dataType}
+              handleAddBtn={handleAddBtn}
+              handleNavgiation={handleNavgiation}
+            />
           ))}
         </div>
       )}
